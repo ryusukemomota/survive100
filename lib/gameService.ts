@@ -1,6 +1,22 @@
-import { client } from './amplify';
 import { GameResult, PlayerStats } from '@/types/game';
-import { getCurrentUser } from 'aws-amplify/auth';
+
+// 動的インポートでAmplifyクライアントを読み込み
+let client: any = null;
+let getCurrentUser: any = null;
+
+async function initializeAmplify() {
+  if (!client) {
+    try {
+      const amplifyModule = await import('./amplify');
+      const authModule = await import('aws-amplify/auth');
+      client = amplifyModule.client;
+      getCurrentUser = authModule.getCurrentUser;
+    } catch (error) {
+      console.error('Failed to initialize Amplify:', error);
+      throw error;
+    }
+  }
+}
 
 export interface GameResultData {
   reachedAge: number;
@@ -12,6 +28,7 @@ export interface GameResultData {
 
 export async function saveGameResult(gameData: GameResultData): Promise<boolean> {
   try {
+    await initializeAmplify();
     const user = await getCurrentUser();
     
     await client.models.GameResult.create({
@@ -36,6 +53,7 @@ export async function saveGameResult(gameData: GameResultData): Promise<boolean>
 
 async function updatePlayerProfile(gameData: GameResultData) {
   try {
+    await initializeAmplify();
     const user = await getCurrentUser();
     
     // 既存のプロフィールを取得（owner認証では自動的にユーザーIDでフィルタリング）
@@ -70,13 +88,15 @@ async function updatePlayerProfile(gameData: GameResultData) {
 
 export async function getLeaderboard(limit: number = 10) {
   try {
+    await initializeAmplify();
     const { data } = await client.models.GameResult.list({
       limit,
-      // 最高スコア順でソート
-      sortDirection: 'DESC',
     });
     
-    return data || [];
+    // クライアントサイドでスコア順にソート
+    const sortedData = (data || []).sort((a, b) => b.totalScore - a.totalScore);
+    
+    return sortedData;
   } catch (error) {
     console.error('Failed to fetch leaderboard:', error);
     return [];
@@ -85,6 +105,7 @@ export async function getLeaderboard(limit: number = 10) {
 
 export async function getPlayerStats() {
   try {
+    await initializeAmplify();
     const { data: profiles } = await client.models.PlayerProfile.list();
     return profiles?.[0] || null; // 自分のプロフィールのみ取得される
   } catch (error) {
@@ -95,6 +116,7 @@ export async function getPlayerStats() {
 
 export async function getPlayerGameHistory(limit: number = 20) {
   try {
+    await initializeAmplify();
     const { data } = await client.models.GameResult.list({
       limit,
     });
