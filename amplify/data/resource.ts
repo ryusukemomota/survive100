@@ -4,7 +4,6 @@ const schema = a.schema({
   // ゲーム結果（1回のプレイ記録）
   GameResult: a
     .model({
-      userId: a.id().required(),
       playerName: a.string(),
       reachedAge: a.integer().required(),
       causeOfDeath: a.string().required(),
@@ -21,7 +20,6 @@ const schema = a.schema({
   // プレイヤープロフィール
   PlayerProfile: a
     .model({
-      userId: a.id().required(),
       nickname: a.string(),
       totalGames: a.integer().default(0),
       bestAge: a.integer().default(0),

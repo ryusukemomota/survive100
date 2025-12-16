@@ -15,7 +15,6 @@ export async function saveGameResult(gameData: GameResultData): Promise<boolean>
     const user = await getCurrentUser();
     
     await client.models.GameResult.create({
-      userId: user.userId,
       playerName: user.signInDetails?.loginId || 'Anonymous',
       reachedAge: gameData.reachedAge,
       causeOfDeath: gameData.causeOfDeath,
@@ -39,13 +38,11 @@ async function updatePlayerProfile(gameData: GameResultData) {
   try {
     const user = await getCurrentUser();
     
-    // 既存のプロフィールを取得
-    const { data: existingProfile } = await client.models.PlayerProfile.get({
-      userId: user.userId,
-    });
+    // 既存のプロフィールを取得（owner認証では自動的にユーザーIDでフィルタリング）
+    const { data: profiles } = await client.models.PlayerProfile.list();
+    const existingProfile = profiles?.[0]; // 自分のプロフィールのみ取得される
 
     const profileData = {
-      userId: user.userId,
       nickname: user.signInDetails?.loginId || 'Player',
       totalGames: (existingProfile?.totalGames || 0) + 1,
       bestAge: Math.max(existingProfile?.bestAge || 0, gameData.reachedAge),
@@ -57,7 +54,7 @@ async function updatePlayerProfile(gameData: GameResultData) {
 
     if (existingProfile) {
       await client.models.PlayerProfile.update({
-        userId: user.userId,
+        id: existingProfile.id,
         ...profileData,
       });
     } else {
@@ -88,12 +85,8 @@ export async function getLeaderboard(limit: number = 10) {
 
 export async function getPlayerStats() {
   try {
-    const user = await getCurrentUser();
-    const { data } = await client.models.PlayerProfile.get({
-      userId: user.userId,
-    });
-    
-    return data;
+    const { data: profiles } = await client.models.PlayerProfile.list();
+    return profiles?.[0] || null; // 自分のプロフィールのみ取得される
   } catch (error) {
     console.error('Failed to fetch player stats:', error);
     return null;
@@ -102,17 +95,11 @@ export async function getPlayerStats() {
 
 export async function getPlayerGameHistory(limit: number = 20) {
   try {
-    const user = await getCurrentUser();
     const { data } = await client.models.GameResult.list({
-      filter: {
-        userId: {
-          eq: user.userId,
-        },
-      },
       limit,
     });
     
-    return data || [];
+    return data || []; // owner認証により自分のデータのみ取得される
   } catch (error) {
     console.error('Failed to fetch game history:', error);
     return [];
