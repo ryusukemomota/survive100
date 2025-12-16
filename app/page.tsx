@@ -38,6 +38,7 @@ export default function Game() {
   const [showLeaderboard, setShowLeaderboard] = useState(false)
   const [gameStartTime, setGameStartTime] = useState<number>(Date.now())
   const [saving, setSaving] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(true)
 
   // 年末処理（APが0になったら実行）
   const processYear = () => {
@@ -289,6 +290,41 @@ export default function Game() {
         </div>
       </div>
     )
+  }
+
+  // ウェルカムメッセージ
+  if (showWelcome) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md text-center">
+          <div className="text-6xl mb-4">🎮</div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            SURVIVE 100へようこそ！
+          </h1>
+          <p className="text-gray-600 mb-6">
+            あなたは20歳。目標は100歳まで健康に生き残ることです。
+            賢明な選択で人生をコントロールしましょう。
+          </p>
+          
+          <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
+            <h3 className="font-semibold text-blue-800 mb-2">🎯 ゲームルール</h3>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• 毎年4つのアクションポイントを使用</li>
+              <li>• ヘルス通貨で生活をコントロール</li>
+              <li>• 病気を予防し、健康を維持</li>
+              <li>• 免疫力・筋力・精神力が0になると死亡</li>
+            </ul>
+          </div>
+
+          <button
+            onClick={() => setShowWelcome(false)}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+          >
+            人生を開始する
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

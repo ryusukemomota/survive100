@@ -33,3 +33,57 @@ body {
   min-height: 100vh;
   background: #f8fafc;
 }
+
+/* Amplify UI カスタマイズ */
+[data-amplify-authenticator] {
+  --amplify-colors-background-primary: transparent;
+  --amplify-colors-background-secondary: rgba(255, 255, 255, 0.1);
+  --amplify-colors-border-primary: rgba(255, 255, 255, 0.2);
+  --amplify-colors-brand-primary-80: #3b82f6;
+  --amplify-colors-brand-primary-90: #2563eb;
+  --amplify-colors-brand-primary-100: #1d4ed8;
+}
+
+[data-amplify-authenticator] .amplify-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-amplify-authenticator] .amplify-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+[data-amplify-authenticator] .amplify-button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+[data-amplify-authenticator] .amplify-input {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+[data-amplify-authenticator] .amplify-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* アニメーション */
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
