@@ -154,7 +154,7 @@ npm run amplify:deploy
 
 ## 👨‍💻 作者
 
-- **あなたの名前** - [GitHub](https://github.com/ryusukemomota)
+- **Ryusuke Momota** - [GitHub](https://github.com/ryusukemomota)
 
 ## 🙏 謝辞
 
