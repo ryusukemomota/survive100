@@ -60,7 +60,7 @@ export default function Leaderboard({ onClose }: LeaderboardProps) {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
       <div className="bg-white rounded-lg max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-bold">統計・ランキング</h2>
+          <h2 className="text-xl font-bold text-gray-900">統計・ランキング</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -121,7 +121,7 @@ export default function Leaderboard({ onClose }: LeaderboardProps) {
                         <div className="flex items-center">
                           <span className="text-lg mr-3">{getRankIcon(index + 1)}</span>
                           <div>
-                            <div className="font-medium">{result.playerName}</div>
+                            <div className="font-medium text-gray-900">{result.playerName}</div>
                             <div className="text-sm text-gray-600">
                               {result.reachedAge}歳まで生存
                             </div>
@@ -151,19 +151,19 @@ export default function Leaderboard({ onClose }: LeaderboardProps) {
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <div className="text-gray-600">総プレイ回数</div>
-                            <div className="font-bold">{playerProfile.totalGames}回</div>
+                            <div className="font-bold text-gray-900">{playerProfile.totalGames}回</div>
                           </div>
                           <div>
                             <div className="text-gray-600">最高年齢</div>
-                            <div className="font-bold">{playerProfile.bestAge}歳</div>
+                            <div className="font-bold text-gray-900">{playerProfile.bestAge}歳</div>
                           </div>
                           <div>
                             <div className="text-gray-600">最高スコア</div>
-                            <div className="font-bold">{playerProfile.bestScore.toLocaleString()}</div>
+                            <div className="font-bold text-gray-900">{playerProfile.bestScore.toLocaleString()}</div>
                           </div>
                           <div>
                             <div className="text-gray-600">総プレイ時間</div>
-                            <div className="font-bold">{Math.round(playerProfile.totalPlayTime / 60)}分</div>
+                            <div className="font-bold text-gray-900">{Math.round(playerProfile.totalPlayTime / 60)}分</div>
                           </div>
                         </div>
                       </div>
@@ -191,11 +191,11 @@ export default function Leaderboard({ onClose }: LeaderboardProps) {
                       >
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <div className="font-medium">{result.reachedAge}歳で死亡</div>
+                            <div className="font-medium text-gray-900">{result.reachedAge}歳で死亡</div>
                             <div className="text-sm text-red-600">{result.causeOfDeath}</div>
                           </div>
                           <div className="text-right">
-                            <div className="font-bold">{result.totalScore.toLocaleString()}</div>
+                            <div className="font-bold text-gray-900">{result.totalScore.toLocaleString()}</div>
                             <div className="text-xs text-gray-500">
                               {new Date(result.playedAt).toLocaleDateString()}
                             </div>

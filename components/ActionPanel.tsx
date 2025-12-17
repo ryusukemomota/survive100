@@ -40,7 +40,7 @@ export default function ActionPanel({ actions, player, diseases, onActionSelect 
 
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-4">
-      <h3 className="text-lg font-bold mb-4">
+      <h3 className="text-lg font-bold text-gray-900 mb-4">
         年間アクション選択 (残り: {player.actionPoints}AP)
       </h3>
       
@@ -67,17 +67,17 @@ export default function ActionPanel({ actions, player, diseases, onActionSelect 
                   <div className="flex items-center">
                     <span className="text-xl mr-2">{action.icon}</span>
                     <div>
-                      <div className="font-medium text-sm">{action.name}</div>
-                      <div className="text-xs text-gray-500">{action.description}</div>
+                      <div className="font-medium text-sm text-gray-900">{action.name}</div>
+                      <div className="text-xs text-gray-600">{action.description}</div>
                       {action.riskWarning && (
                         <div className="text-xs text-red-500 mt-1">⚠️ {action.riskWarning}</div>
                       )}
                     </div>
                   </div>
-                  <div className="text-right text-xs">
-                    <div>AP: {action.apCost}</div>
-                    {action.hcCost > 0 && <div>HC: {action.hcCost.toLocaleString()}</div>}
-                    {action.healthEffect > 0 && <div className="text-green-600">+{action.healthEffect.toLocaleString()}HC</div>}
+                  <div className="text-right text-xs text-gray-700">
+                    <div className="font-semibold">AP: {action.apCost}</div>
+                    {action.hcCost > 0 && <div className="font-semibold">HC: {action.hcCost.toLocaleString()}</div>}
+                    {action.healthEffect > 0 && <div className="text-green-600 font-semibold">+{action.healthEffect.toLocaleString()}HC</div>}
                   </div>
                 </div>
               </button>

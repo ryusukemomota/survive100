@@ -87,3 +87,28 @@ body {
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+/* iOS Safari text visibility fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific styles */
+  .text-gray-900 {
+    color: #111827 !important;
+  }
+  
+  .text-gray-800 {
+    color: #1f2937 !important;
+  }
+  
+  .text-gray-700 {
+    color: #374151 !important;
+  }
+  
+  .text-gray-600 {
+    color: #4b5563 !important;
+  }
+  
+  /* Ensure all numbers and important text are visible */
+  .font-bold, .font-semibold {
+    color: #111827 !important;
+  }
+}

@@ -32,9 +32,9 @@ export default function StatusBar({ player }: StatusBarProps) {
     color: string 
   }) => (
     <div className="mb-3">
-      <div className="flex justify-between text-sm font-medium mb-1">
-        <span>{label}</span>
-        <span>{Math.round(current)}/{Math.round(max)}</span>
+      <div className="flex justify-between text-sm font-medium mb-1 text-gray-800">
+        <span className="text-gray-700">{label}</span>
+        <span className="text-gray-900 font-bold">{Math.round(current)}/{Math.round(max)}</span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-3">
         <div
@@ -48,18 +48,18 @@ export default function StatusBar({ player }: StatusBarProps) {
   return (
     <div className="bg-white rounded-lg p-4 shadow-md mb-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold">SURVIVE 100</h2>
+        <h2 className="text-lg font-bold text-gray-900">SURVIVE 100</h2>
         <div className="text-right">
-          <div className="text-2xl font-bold">{player.age}歳</div>
+          <div className="text-2xl font-bold text-gray-900">{player.age}歳</div>
           <div className="text-sm text-gray-600">残り: {100 - player.age}年</div>
-          <div className="text-xs text-blue-600">AP: {player.actionPoints}/4</div>
+          <div className="text-xs text-blue-600 font-semibold">AP: {player.actionPoints}/4</div>
         </div>
       </div>
       
       <div className="mb-3">
         <div className="flex justify-between text-sm font-medium mb-1">
-          <span>💰 ヘルス通貨（HC）</span>
-          <span>{Math.round(player.health).toLocaleString()}</span>
+          <span className="text-gray-700">💰 ヘルス通貨（HC）</span>
+          <span className="text-gray-900 font-bold">{Math.round(player.health).toLocaleString()}</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div

@@ -32,7 +32,7 @@ export default function DiseasePanel({ diseases }: DiseasePanelProps) {
 
   return (
     <div className="mb-4">
-      <h3 className="text-lg font-bold mb-3">現在の病気</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-3">現在の病気</h3>
       {diseases.map((disease) => (
         <div
           key={disease.id}
@@ -45,18 +45,18 @@ export default function DiseasePanel({ diseases }: DiseasePanelProps) {
                 <div className="font-medium">{disease.name}</div>
                 <div className="text-sm opacity-80">{disease.description}</div>
                 <div className="text-xs mt-1 space-y-1">
-                  <div>💰 治療費: {disease.treatmentCost?.toLocaleString()}HC</div>
+                  <div className="text-gray-700 font-medium">💰 治療費: {disease.treatmentCost?.toLocaleString()}HC</div>
                   {disease.treatmentSuccess > 0 ? (
-                    <div>🎯 治癒率: {disease.treatmentSuccess}%</div>
+                    <div className="text-gray-700 font-medium">🎯 治癒率: {disease.treatmentSuccess}%</div>
                   ) : (
-                    <div>⚕️ 慢性疾患（症状管理のみ）</div>
+                    <div className="text-gray-700 font-medium">⚕️ 慢性疾患（症状管理のみ）</div>
                   )}
                 </div>
               </div>
             </div>
             <div className="text-right text-xs">
-              <div>重症度: {disease.severity}</div>
-              <div className="text-red-600 mt-1">
+              <div className="text-gray-700 font-semibold">重症度: {disease.severity}</div>
+              <div className="text-red-600 font-semibold mt-1">
                 毎年 -{disease.healthDrain}HC
               </div>
             </div>
