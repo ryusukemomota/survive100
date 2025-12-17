@@ -19,6 +19,12 @@ const USE_MOCK_AUTH = process.env.NODE_ENV === 'development' && !process.env.NEX
 const gameService = USE_MOCK_AUTH 
   ? import('@/lib/mockGameService')
   : import('@/lib/gameService')
+
+// ゲストモードかどうかを判定（簡易的にlocalStorageで判定）
+const isGuestMode = () => {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem('gameMode') === 'guest';
+}
 import StatusBar from '@/components/StatusBar'
 import ActionPanel from '@/components/ActionPanel'
 import DiseasePanel from '@/components/DiseasePanel'
@@ -39,6 +45,12 @@ export default function Game() {
   const [gameStartTime, setGameStartTime] = useState<number>(Date.now())
   const [saving, setSaving] = useState(false)
   const [showWelcome, setShowWelcome] = useState(true)
+  const [guestMode, setGuestMode] = useState(false)
+
+  // ゲストモードの状態を確認
+  useEffect(() => {
+    setGuestMode(isGuestMode());
+  }, []);
 
   // 年末処理（APが0になったら実行）
   const processYear = () => {
@@ -142,7 +154,7 @@ export default function Game() {
 
   // ゲーム結果を保存
   const saveResult = async (gameState: GameState) => {
-    if (saving) return;
+    if (saving || guestMode) return; // ゲストモードでは保存しない
     
     setSaving(true);
     try {
@@ -212,25 +224,29 @@ export default function Game() {
             素晴らしいライフマネジメントでした。
           </p>
           <div className="space-y-3">
-            <button
-              onClick={() => saveResult(gameState)}
-              disabled={saving}
-              className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
-            >
-              {saving ? '保存中...' : '結果を保存'}
-            </button>
+            {!guestMode && (
+              <button
+                onClick={() => saveResult(gameState)}
+                disabled={saving}
+                className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
+              >
+                {saving ? '保存中...' : '結果を保存'}
+              </button>
+            )}
             <button
               onClick={resetGame}
               className="w-full bg-green-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
             >
               新しい人生に挑戦
             </button>
-            <button
-              onClick={() => setShowLeaderboard(true)}
-              className="w-full bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
-            >
-              ランキングを見る
-            </button>
+            {!guestMode && (
+              <button
+                onClick={() => setShowLeaderboard(true)}
+                className="w-full bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+              >
+                ランキングを見る
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -267,25 +283,29 @@ export default function Game() {
             </div>
           </div>
           <div className="space-y-3">
-            <button
-              onClick={() => saveResult(gameState)}
-              disabled={saving}
-              className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
-            >
-              {saving ? '保存中...' : '結果を保存'}
-            </button>
+            {!guestMode && (
+              <button
+                onClick={() => saveResult(gameState)}
+                disabled={saving}
+                className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
+              >
+                {saving ? '保存中...' : '結果を保存'}
+              </button>
+            )}
             <button
               onClick={resetGame}
               className="w-full bg-red-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors"
             >
               人生をやり直す
             </button>
-            <button
-              onClick={() => setShowLeaderboard(true)}
-              className="w-full bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
-            >
-              ランキングを見る
-            </button>
+            {!guestMode && (
+              <button
+                onClick={() => setShowLeaderboard(true)}
+                className="w-full bg-gray-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+              >
+                ランキングを見る
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -379,12 +399,14 @@ export default function Game() {
         >
           人生をリセット
         </button>
-        <button
-          onClick={() => setShowLeaderboard(true)}
-          className="text-blue-500 text-sm hover:text-blue-700 transition-colors"
-        >
-          📊 ランキング
-        </button>
+        {!guestMode && (
+          <button
+            onClick={() => setShowLeaderboard(true)}
+            className="text-blue-500 text-sm hover:text-blue-700 transition-colors"
+          >
+            📊 ランキング
+          </button>
+        )}
       </div>
 
 
